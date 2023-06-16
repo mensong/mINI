@@ -135,10 +135,10 @@ namespace mINI
 	class INIMap
 	{
 	private:
-		using T_DataIndexMap = std::unordered_map<std::string, std::size_t>;
-		using T_DataItem = std::pair<std::string, T>;
-		using T_DataContainer = std::vector<T_DataItem>;
-		using T_MultiArgs = typename std::vector<std::pair<std::string, T>>;
+		typedef std::unordered_map<std::string, std::size_t> T_DataIndexMap;
+		typedef std::pair<std::string, T> T_DataItem;
+		typedef std::vector<T_DataItem> T_DataContainer;
+		typedef typename std::vector<std::pair<std::string, T>> T_MultiArgs;
 
 		T_DataIndexMap dataIndexMap;
 		T_DataContainer data;
@@ -152,7 +152,7 @@ namespace mINI
 		}
 
 	public:
-		using const_iterator = typename T_DataContainer::const_iterator;
+		typedef typename T_DataContainer::const_iterator const_iterator;
 
 		INIMap() { }
 
@@ -263,11 +263,11 @@ namespace mINI
 		const_iterator end() const { return data.end(); }
 	};
 
-	using INIStructure = INIMap<INIMap<std::string>>;
+	typedef INIMap<INIMap<std::string>> INIStructure;
 
 	namespace INIParser
 	{
-		using T_ParseValues = std::pair<std::string, std::string>;
+		typedef std::pair<std::string, std::string> T_ParseValues;
 
 		enum class PDataType : char
 		{
@@ -329,10 +329,10 @@ namespace mINI
 	class INIReader
 	{
 	public:
-		using T_LineData = std::vector<std::string>;
-		using T_LineDataPtr = std::shared_ptr<T_LineData>;
+		typedef std::vector<std::string> T_LineData;
+		typedef std::shared_ptr<T_LineData> T_LineDataPtr;
 
-		bool isBOM = false;
+		bool isBOM;
 
 	private:
 		std::ifstream fileReadStream;
@@ -390,6 +390,7 @@ namespace mINI
 
 	public:
 		INIReader(std::string const& filename, bool keepLineData = false)
+			: isBOM(false)
 		{
 			fileReadStream.open(filename, std::ios::in | std::ios::binary);
 			if (keepLineData)
@@ -446,9 +447,10 @@ namespace mINI
 		std::ofstream fileWriteStream;
 
 	public:
-		bool prettyPrint = false;
+		bool prettyPrint;
 
 		INIGenerator(std::string const& filename)
+			: prettyPrint(false)
 		{
 			fileWriteStream.open(filename, std::ios::out | std::ios::binary);
 		}
@@ -511,8 +513,8 @@ namespace mINI
 	class INIWriter
 	{
 	private:
-		using T_LineData = std::vector<std::string>;
-		using T_LineDataPtr = std::shared_ptr<T_LineData>;
+		typedef std::vector<std::string> T_LineData;
+		typedef std::shared_ptr<T_LineData> T_LineDataPtr;
 
 		std::string filename;
 
@@ -673,10 +675,11 @@ namespace mINI
 		}
 
 	public:
-		bool prettyPrint = false;
+		bool prettyPrint;
 
 		INIWriter(std::string const& filename)
-		: filename(filename)
+			: filename(filename)
+			, prettyPrint(false)
 		{
 		}
 		~INIWriter() { }
